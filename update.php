@@ -1,5 +1,34 @@
 <?php
-require_once('update_data.php');
+
+require_once('config.php');
+
+$id = $_GET['criteria'];
+$sql = "SELECT * FROM input WHERE id = '$id'";
+$result = mysqli_query($conn, $sql);
+$formData = mysqli_fetch_assoc($result);
+
+if(isset($_POST['update'])){
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $phone = $_POST['phone'];
+        $gender = $_POST['gender'];
+        $lan = $_POST['language'];
+        $zip = $_POST['zip'];
+        $about = $_POST['about'];
+
+        
+        $sql = "UPDATE input SET name='$name', email='$email', pwd='$password', phone='$phone', gender='$gender', language='$lan', zip='$zip', about='$about' WHERE id=$id";
+    
+        $query = mysqli_query($conn, $sql);
+
+        if($query){
+            header('Location: index.php');
+        }else{
+            echo "error";
+        echo ("$name");
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +43,7 @@ require_once('update_data.php');
 <blockquote>
 
 <h1>Update Data</h1>
-    <form action="update_data.php" method="post">
+    <form action="" method="post">
     <label for="name">Name:</label>
     <input type="text" name="name" placeholder="your name" value="<?= $formData['name']?>"><br> <br>
 
@@ -43,7 +72,7 @@ require_once('update_data.php');
     <input type="number" name="zip" value="<?= $formData['zip']?>"><br> <br>
 
     <label for="about">About:</label>
-    <textarea name="about" id="about" cols="30" rows="10" value="<?php echo($formData['about']) ?>"></textarea> <br> <br>
+    <textarea name="about" id="about" cols="30" rows="10"><?php echo($formData['about']) ?></textarea> <br> <br>
 
     <!-- <textarea name="about" id="about" cols="30" rows="10" value=""></textarea> <br> <br> -->
 
